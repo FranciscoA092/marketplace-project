@@ -1,0 +1,16 @@
+{
+    "name": "franc/marketplace-project",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Francisco Auris",
+            "email": "francisco.auris@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
