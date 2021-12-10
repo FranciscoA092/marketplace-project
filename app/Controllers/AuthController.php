@@ -2,24 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Models\Client;
-use App\Models\Company;
+use App\Services\AuthService;
+use App\Support\Page;
 
-class AuthController
+class AuthController extends Page
 {
-    private $modelCompany;
-    private $modelClient;
-    private $_title = "Login";
+    const TITLE     = "Login";
+    const TEMPLATE  = "auth";
+
+    private $service;
 
     public function __construct()
     {
-        $this->modelCompany = new Company();
-        $this->modelClient  = new Client();
+        //constructor method
+        $this->service = new AuthService();
     }
 
     public function index()
     {
         //return view index fo controller
+        return $this->view('Signin');
     }
     /**
      * @method Signin
@@ -33,11 +35,14 @@ class AuthController
 
         if ($login == null or $password == null) {
             //return error
+            return $this->view('Signin', ['message' => 'Informações de login ou senha não encontrado(s).']);
         }
         //first check if login is company
-        $authCompany = $this->modelCompany->where([
-            ['email', '=', $login],
-            ['password', '=', md5($password)]
-        ]);
+        $action = $this->service->signin($login, $password);
+        if ($action['status'] == "success") {
+            //redirect for home page
+        } else {
+            return $this->view('Signin', ['message' => $action['message']]);
+        }
     }
 }

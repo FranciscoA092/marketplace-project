@@ -7,8 +7,11 @@ use Exception;
 
 class ModelHandler extends DB implements ModelInterface
 {
+    private $_response;
+
     public function __construct()
     {
+        parent::__construct();
         if (!property_exists($this, 'table')) {
             throw new Exception("Error, property table not found in class model", 1);
         }
@@ -16,6 +19,16 @@ class ModelHandler extends DB implements ModelInterface
             throw new Exception("Error, property primary key bot found in class model", 1);
         }
     }
+    //methods of return response
+    public function get()
+    {
+        return $this->_response ?? [];
+    }
+    public function first()
+    {
+        return $this->_response[0] ?? [];
+    }
+    //methods for manipulation of database
     public function create(array $data): array
     {
         try {
@@ -108,7 +121,7 @@ class ModelHandler extends DB implements ModelInterface
             return [];
         }
     }
-    public function where(array $clausule): array
+    public function where(array $clausule): ModelHandler
     {
         $where = "";
         $error = "";
@@ -122,14 +135,11 @@ class ModelHandler extends DB implements ModelInterface
             $operation = $clausule[$i][1];
             $value = $clausule[$i][2];
 
-            $where .= "$column $operation $value " . ($i == count($clausule) + 1 ? "" : "AND ");
+            $where .= "$column $operation '$value' " . ($i == count($clausule) - 1 ? "" : "AND ");
         }
 
         if ($error != "") {
-            return [
-                'status' => 'failed',
-                'message' => $error
-            ];
+            throw new Exception("Error, $error", 1);
         }
         //continue
         $columns = implode(",", $this->fillable);
@@ -138,14 +148,11 @@ class ModelHandler extends DB implements ModelInterface
 
         if ($query and $query->rowCount() > 0) {
             $datas = $query->fetchAll();
-            return [
-                'status' => 'success',
-                'response' => $datas
-            ];
+            $this->_response = $datas;
         } else {
-            return [
-                'status' => 'empty'
-            ];
+            $this->_response = [];
         }
+
+        return $this;
     }
 }

@@ -9,5 +9,5 @@ interface ModelInterface
     public function delete($id): bool;
     public function all(): array;
     public function find($id): array;
-    public function where(array $data): array;
+    public function where(array $data);
 }

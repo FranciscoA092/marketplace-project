@@ -10,11 +10,6 @@ use PDOException;
  */
 class DB
 {
-    const DB_USER = '';
-    const DB_PWD = '';
-    const DB_HOST = '';
-    const DATABASE = '';
-
     protected $_database;
 
     public function __construct()
@@ -25,7 +20,7 @@ class DB
     protected function connect()
     {
         try {
-            $conn = new PDO('mysql:host=' . self::DB_HOST . ';dbname=' . self::DATABASE, self::DB_USER, self::DB_PWD);
+            $conn = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DATABASE, DB_USER, DB_PWD);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         } catch (PDOException $e) {
