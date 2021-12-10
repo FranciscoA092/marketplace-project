@@ -23,6 +23,10 @@ class AuthController extends Page
         //return view index fo controller
         return $this->view('Signin');
     }
+    public function create()
+    {
+        return $this->view('Signup');
+    }
     /**
      * @method Signin
      * @param input via POST
@@ -38,11 +42,40 @@ class AuthController extends Page
             return $this->view('Signin', ['message' => 'Informações de login ou senha não encontrado(s).']);
         }
         //first check if login is company
-        $action = $this->service->signin($login, $password);
+        $action = $this->service->signin($login, md5($password));
         if ($action['status'] == "success") {
             //redirect for home page
         } else {
             return $this->view('Signin', ['message' => $action['message']]);
+        }
+    }
+
+    public function signup()
+    {
+        $login = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+        $password_confirmation = $_POST['password_confirmation'] ?? null;
+        $name = $_POST['name'] ?? null;
+        $tipo = $_POST['tipo'] ?? null;
+        //check values
+        if ($login == null or $password == null or $password_confirmation == null or $name == null or $tipo == null) {
+            return $this->view('Signup', ['message' => 'Favor preencher todos os campos', 'form' => $_POST]);
+        }
+        if ($password != $password_confirmation) {
+            return $this->view('Signup', ['message' => 'Senha de confirmação divergente', 'form' => $_POST]);
+        }
+        $tipo = $tipo == 'empresa' ? 1 : 2;
+        //continue
+        $action = $this->service->signup([
+            'name' => $name,
+            'email' => $login,
+            'password' => md5($password),
+            'level' => $tipo
+        ]);
+        if ($action['status'] == "success") {
+            //redirect for home page
+        } else {
+            return $this->view('Signup', ['message' => $action['message'], 'form' => $_POST]);
         }
     }
 }

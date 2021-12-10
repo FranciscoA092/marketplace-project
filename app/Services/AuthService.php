@@ -33,7 +33,7 @@ class AuthService
     {
         $user = $this->model->where([
             ['email', '=', $login],
-            ['password', '=', md5($password)]
+            ['password', '=', $password]
         ])->first();
 
         if (!$user) {

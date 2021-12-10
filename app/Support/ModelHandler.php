@@ -36,6 +36,9 @@ class ModelHandler extends DB implements ModelInterface
             $values = array_values($data);
 
             $columns = implode(",", $columns);
+            $values = array_map(function ($i) {
+                return "'$i'";
+            }, $values);
             $values = implode(",", $values);
 
             $script = "INSERT INTO " . $this->table . " ($columns) VALUES ($values)";
