@@ -3,17 +3,16 @@
 namespace App\Support;
 
 use Exception;
+use App\Services\AuthService;
 
 class Page
 {
     const TITLE = "Sistema";
     const TEMPLATE = "default";
 
-    public function url(array $data): string
+    public function redirect($url)
     {
-        $page = $data['page'] ?? null;
-        $action = $data['go'] ?? 'index';
-        return BASEURL . ($page != null ? "?page=$page&go=$action" : "?go=$action");
+        header("Location: " . $url);
     }
     /**
      * @param pathfile = "folder.nameFile"

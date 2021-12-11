@@ -6,7 +6,7 @@ use App\Support\ModelHandler;
 
 class Company extends ModelHandler
 {
-    protected $table = 'company';
+    protected $table = 'companies';
     protected $primaryKey = 'id';
 
     protected $fillable = [

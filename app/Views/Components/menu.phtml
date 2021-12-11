@@ -4,24 +4,35 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse d-flex" id="navbarNav">
-            <ul class="navbar-nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Produtos</a>
-                </li>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        </div>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link <?= $_GET['page'] == 'home' ? 'active' : '' ?>" aria-current="page" href="<?= url(['page' => "home"]) ?>">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= $_GET['page'] == 'product' ? 'active' : '' ?>" href="<?= url(['page' => 'product']); ?>">Produtos</a>
+            </li>
+            <?php
+            if (auth()->level == 1) {
+            ?>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Minha empresa</a>
                 </li>
+            <?php
+            }
+            if (auth()->level == 2) {
+            ?>
                 <li class="nav-item">
-                    <a class="nav-link">Carrinho</a>
+                    <a class="nav-link" href="#">Carrinho</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link">Sair</a>
-                </li>
-            </ul>
-        </div>
+            <?php
+            }
+            ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= url(['page' => 'auth', 'go' => 'logout']) ?>">Sair</a>
+            </li>
+        </ul>
+
     </div>
 </nav>

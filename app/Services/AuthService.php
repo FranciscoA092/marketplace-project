@@ -14,16 +14,6 @@ class AuthService
         $this->model = new User();
     }
 
-    public static function user(): stdClass
-    {
-        $data = new stdClass();
-        $data->name = $_SESSION['auth_name'];
-        $data->email = $_SESSION['auth_email'];
-        $data->level = $_SESSION['auth_level'];
-        $data->id = base64_decode($_SESSION['auth_userid']);
-        return $data;
-    }
-
     public static function check(): bool
     {
         return isset($_SESSION['auth_email']) and strlen(str_replace(' ', '', $_SESSION['auth_email'])) > 0 ? true : false;

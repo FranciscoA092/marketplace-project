@@ -45,6 +45,7 @@ class AuthController extends Page
         $action = $this->service->signin($login, md5($password));
         if ($action['status'] == "success") {
             //redirect for home page
+            return $this->redirect($this->url(['page' => 'home']));
         } else {
             return $this->view('Signin', ['message' => $action['message']]);
         }
@@ -74,8 +75,15 @@ class AuthController extends Page
         ]);
         if ($action['status'] == "success") {
             //redirect for home page
+            return $this->redirect(url(['page' => 'home']));
         } else {
             return $this->view('Signup', ['message' => $action['message'], 'form' => $_POST]);
         }
+    }
+
+    public function logout()
+    {
+        AuthService::logout();
+        return $this->redirect(url(['page' => 'auth']));
     }
 }

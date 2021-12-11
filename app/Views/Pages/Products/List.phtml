@@ -1,0 +1,23 @@
+<div class="container">
+    <?php self::component('breadcrumb', [['label' => 'Produtos', 'url' => null], ['label' => 'Todos', 'url' => null]]); ?>
+    <?php
+    if (!count($props['data']) > 0) {
+        if (auth()->level == 2) {
+            echo '<center>';
+            echo '<h2 class="my-5">';
+            echo '<span class="material-icons my-5 text-secondary" style="font-size:5em;">inventory_2</span><br>';
+            echo 'Nenhum produto encontrado';
+            echo '</h2>';
+            echo '</center>';
+        } else if (auth()->level == 1) {
+            echo '<center>';
+            echo '<h2 class="my-5">';
+            echo '<span class="material-icons my-5 text-secondary" style="font-size:5em;">inventory_2</span><br>';
+            echo 'Nenhum produto encontrado';
+            echo '</h2>';
+            echo '<a href="' . url(['page' => 'product', 'go' => 'create']) . '">Cadastre um novo produto</a>';
+            echo '</center>';
+        }
+    }
+    ?>
+</div>

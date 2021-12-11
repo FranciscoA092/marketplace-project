@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-md-4 col-10  rounded shadow p-5 my-5">
-            <form method="post" action="<?= $this->url(['go' => 'signin']) ?>">
+            <form method="post" action="<?= url(['go' => 'signin']) ?>">
                 <label for="login">Seu login</label>
                 <input type="text" class="form-control" name="login" id="login" placeholder="login" required>
                 <br>
@@ -21,7 +21,7 @@
                 <br>
                 <br>
                 <small class="my-5">
-                    Ainda não tem uma conta? <a href="<?= $this->url(['go' => 'create']) ?>">cadastre-se aqui</a>
+                    Ainda não tem uma conta? <a href="<?= url(['go' => 'create']) ?>">cadastre-se aqui</a>
                 </small>
 
             </form>

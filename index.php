@@ -1,10 +1,13 @@
 <?php
 //file index central fo system
+ini_set('display_errors', false);
+error_reporting(E_ALL);
 
 use App\Services\AuthService;
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/conf.php';
+require __DIR__ . '/helpers.php';
 
 session_start();
 
