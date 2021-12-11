@@ -27,7 +27,9 @@ class ProductController extends Page
             case 2:
                 $list = $this->model->all();
                 break;
-
+            case 1:
+                $list = $this->model->where([['id_company', '=', auth()->idCompany]])->get();
+                break;
             default:
                 $list = [];
                 break;
@@ -67,7 +69,8 @@ class ProductController extends Page
                     'category' => $category,
                     'price' => $price,
                     'description' => $description,
-                    'image' => $newNameFile
+                    'image' => $newNameFile,
+                    'id_company' => auth()->idCompany
                 ];
                 $save = $this->model->create($data_save);
                 if ($save['status'] == 'success') {

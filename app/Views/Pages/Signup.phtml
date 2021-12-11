@@ -25,6 +25,19 @@
                     <label class="form-check-label" for="inlineRadio2">Empresa</label>
                 </div>
 
+                <div id="data-empresa" style="display:none">
+                    <br>
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" class="form-control" name="cnpj" id="cnpj" placeholder="Cnpj da sua empresa" value="<?= $props['form']['cnpj'] ?? '' ?>">
+                    <br>
+                    <label for="name_company">Nome da empresa</label>
+                    <input type="text" class="form-control" name="name_company" id="name_company" placeholder="Nome da sua empresa" value="<?= $props['form']['name_company'] ?? '' ?>">
+                    <br>
+                    <label for="cep">CEP</label>
+                    <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" value="<?= $props['form']['cep'] ?? '' ?>">
+                    <br>
+                </div>
+
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-block">Registrar-se</button>
                 </div>
@@ -44,3 +57,21 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        //masks
+        $('#cnpj').mask('00.000.000/0000-00', {
+            reverse: true
+        });
+        $('#cep').mask('00000-000');
+
+        $('input[name="tipo"]').change(function() {
+            let value = $(this).val();
+            if (value == 'empresa') {
+                $('#data-empresa').show(1000);
+            } else {
+                $('#data-empresa').hide(1000);
+            }
+        });
+    });
+</script>

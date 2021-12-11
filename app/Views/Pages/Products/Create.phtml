@@ -47,6 +47,10 @@
 <script>
     $(document).ready(function() {
 
+        $('input[name="price"]').mask("#.##0,00", {
+            reverse: true
+        });
+
         $('input[name="image"]').change(function(e) {
             let reader = new FileReader();
             reader.onload = function() {
@@ -63,6 +67,9 @@
             let name = $('input[name="name"]').val();
             let category = $('input[name="category"]').val();
             let price = $('input[name="price"]').val();
+            price = price.replace(".", "");
+            price = price.replace(",", ".");
+
             let description = $('textarea[name="description"]').val();
             //add in form data
             form.append('file', $('input[name="image"]')[0].files[0]);

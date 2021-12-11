@@ -1,6 +1,6 @@
 <?php
 //file index central fo system
-ini_set('display_errors', false);
+ini_set('display_errors', true);
 error_reporting(E_ALL);
 
 use App\Services\AuthService;

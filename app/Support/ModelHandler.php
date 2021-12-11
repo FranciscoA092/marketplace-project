@@ -47,7 +47,8 @@ class ModelHandler extends DB implements ModelInterface
 
             return [
                 'status' => 'success',
-                'response' => $create
+                'response' => $create,
+                'id' => $this->_database->lastInsertId()
             ];
         } catch (Exception $e) {
             return [

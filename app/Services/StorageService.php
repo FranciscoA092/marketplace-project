@@ -8,9 +8,11 @@ class StorageService
     {
         $type = $file['type'];
         $temp = $file['tmp_name'];
-        $ext = '.' . pathinfo($temp)['extension'];
+        $name = $file['name'];
+        $temp_count = explode('.', $name);
+        $ext = '.' . $temp_count[count($temp_count) - 1];
         $newName = $filename == null ? md5(date('YmdHis')) . $ext : $filename . $ext;
-        $pathFile = BASEDIR . '/storage/' . $path . '/' . $filename;
+        $pathFile = BASEDIR . '/storage/' . $path . '/' . $newName;
         if (!is_dir(BASEDIR . '/storage/' . $path . '/')) {
             mkdir(BASEDIR . '/storage/' . $path . '/', 777);
         }

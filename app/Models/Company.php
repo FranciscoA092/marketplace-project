@@ -10,6 +10,6 @@ class Company extends ModelHandler
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'cnpj', 'name', 'email', 'password', 'cep'
+        'id', 'cnpj', 'name', 'email', 'cep', 'id_user'
     ];
 }
