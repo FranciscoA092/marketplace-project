@@ -16,7 +16,11 @@ class StorageService
         if (!is_dir(BASEDIR . '/storage/' . $path . '/')) {
             mkdir(BASEDIR . '/storage/' . $path . '/', 777);
         }
-        return move_uploaded_file($temp, $pathFile);
+        if (move_uploaded_file($temp, $pathFile)) {
+            return $newName;
+        } else {
+            return false;
+        }
     }
     public static function delete()
     {

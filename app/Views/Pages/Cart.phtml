@@ -1,0 +1,91 @@
+<div class="container">
+    <h3 class="my-3">Carrinho de compras</h3>
+
+    <?php
+    if (count($props['data']) > 0) {
+        $total = 0;
+        echo '<br>
+        <a href="#" class="btn btn-danger">Finalizar compra</a>';
+        echo '<table class="table align-middle my-5">';
+        echo '<tbody>';
+        foreach ($props['data'] as $product) {
+            $total = $total + $product['cart_price'];
+            echo '<tr id="row_' . $product['id'] . '">';
+            echo '<td width="10%"><img src="' . BASEURL . '/storage/products/' . $product['image'] . '" width="60px" height="60px"></td>';
+            echo '<td style="line-height:50px;">' . $product['name'] . '</td>';
+            echo '<td style="line-height:50px;"><b>R$' . number_format($product['cart_price'], 2, ',', '.') . '</b></td>';
+            echo '<td width="12%">';
+            echo '<div class="input-group input-group-sm mt-3">
+                    <button class="btn btn-outline-primary" type="button" onclick=changeQuantity("decrement","' . $product['id'] . '")>-</button>
+                    <input type="number" class="form-control" style="text-align:center;" id="quantity_' . $product['id'] . '" value="' . $product['cart_quantity'] . '" disabled>
+                    <button class="btn btn-outline-primary" type="button" onclick=changeQuantity("increment","' . $product['id'] . '")>+</button>
+                </div>';
+            echo '</td>';
+            echo '<td width="10%">';
+            echo '<button class="btn btn-danger btn-sm mt-3" onclick=removeCart("' . $product['id'] . '")><i class="material-icons" style="font-size:1em;">delete</i></button>';
+            echo '</td>';
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        echo '<caption>Total R$' . number_format($total, 2, ',', '.') . '</caption>';
+        echo '</table>';
+    } else {
+        echo '<center>';
+        echo '<span class="material-icons text-danger my-5" style="font-size:5em;">production_quantity_limits</span><br>';
+        echo '<h5>Carrinho vazio</h5>';
+        echo '</center>';
+    }
+    ?>
+</div>
+<script>
+    function removeCart(idProduct) {
+        $.ajax({
+            url: '<?= url(['page' => 'cart', 'go' => 'remove']) ?>',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                id_product: idProduct
+            }
+        }).done(function(data) {
+            Swal.fire({
+                icon: 'success',
+                title: "",
+                text: data.message,
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?= url(['page' => 'cart']) ?>';
+                }
+            });
+        }).fail(function(err) {
+            Swal.fire('', err.responseJSON.message, 'error');
+        });
+    }
+
+    function changeQuantity(tipo, idProduct) {
+        let action = tipo == 'increment' ? '<?= url(['page' => 'cart', 'go' => 'increment']) ?>' : '<?= url(['page' => 'cart', 'go' => 'decrement']) ?>';
+        $.ajax({
+            url: action,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                id_product: idProduct
+            }
+        }).done(function(data) {
+            Swal.fire({
+                icon: 'success',
+                title: "",
+                text: data.message,
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?= url(['page' => 'cart']) ?>';
+                }
+            });
+        }).fail(function(err) {
+            Swal.fire('', err.responseJSON.message, 'error');
+        });
+    }
+</script>

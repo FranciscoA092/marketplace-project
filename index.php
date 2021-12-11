@@ -1,5 +1,6 @@
 <?php
 //file index central fo system
+setlocale(LC_MONETARY, 'pt_BR');
 ini_set('display_errors', true);
 error_reporting(E_ALL);
 

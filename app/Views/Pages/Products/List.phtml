@@ -1,6 +1,9 @@
 <div class="container">
     <?php self::component('breadcrumb', [['label' => 'Produtos', 'url' => null], ['label' => 'Todos', 'url' => null]]); ?>
     <?php
+    if (auth()->level == 1) {
+        echo '<a href="' . url(['page' => 'product', 'go' => 'create']) . '" class="btn btn-primary my-3"><i class="material-icons" style="font-size:1em;">add</i> Cadastrar novo produto</a>';
+    }
     if (!count($props['data']) > 0) {
         if (auth()->level == 2) {
             echo '<center>';
@@ -29,10 +32,10 @@
                 echo '<img src="' . BASEURL . '/storage/products/' . $product['image'] . '" class="card-img-top" alt="' . $product['name'] . '">';
                 echo '<div class="card-body">';
                 echo '<h5 class="card-title">' . $product['name'] . '</h5>';
-                echo '<p class="text-secondary">R$ ' . $product['price'] . '</p>';
+                echo '<p class="text-secondary">R$ ' . number_format($product['price'], 2, ',', '.') . '</p>';
                 echo '<p class="card-text">' . $product['description'] . '</p>';
                 if (auth()->level == 2) {
-                    echo '<div class="d-grid gap-2"><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
+                    echo '<div class="d-grid gap-2" onclick=addCart("' . $product['id'] . '")><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
                 } else {
                     echo '<a href="#" class="btn btn-sm btn-primary">Editar</a>';
                     echo '<a href="#" class="btn btn-sm btn-danger mx-2">Excluir</a>';
@@ -48,3 +51,19 @@
     }
     ?>
 </div>
+<script>
+    function addCart(idProduct) {
+        $.ajax({
+            url: '<?= url(['page' => 'cart', 'go' => 'add']) ?>',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                id_product: idProduct
+            }
+        }).done(function(data) {
+            Swal.fire('', data.message, 'success');
+        }).fail(function(err) {
+            Swal.fire('', err.responseJSON.message, 'error');
+        })
+    }
+</script>

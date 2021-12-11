@@ -61,15 +61,14 @@ class ProductController extends Page
                 ], 400);
             }
             //continue
-            $newNameFile = md5(date('YmdHis'));
-            if (StorageService::put($file, 'products', $newNameFile)) {
+            if ($upload = StorageService::put($file, 'products')) {
                 //file of image saved
                 $data_save = [
                     'name' => $name,
                     'category' => $category,
                     'price' => $price,
                     'description' => $description,
-                    'image' => $newNameFile,
+                    'image' => $upload,
                     'id_company' => auth()->idCompany
                 ];
                 $save = $this->model->create($data_save);
