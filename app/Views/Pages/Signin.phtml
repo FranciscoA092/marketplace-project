@@ -1,6 +1,8 @@
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-md-4 col-10  rounded shadow p-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-12 rounded shadow p-5 my-5 bg-white">
+            <a href="<?= url(['page' => 'home']) ?>"><i class="material-icons">arrow_back</i></a>
+            <center><img src="<?= BASEURL . '/images/logo.png' ?>" width="120px" class="mb-4"></center>
             <form method="post" action="<?= url(['go' => 'signin']) ?>">
                 <label for="login">Seu login</label>
                 <input type="text" class="form-control" name="login" id="login" placeholder="login" required>
@@ -21,7 +23,7 @@
                 <br>
                 <br>
                 <small class="my-5">
-                    Ainda não tem uma conta? <a href="<?= url(['go' => 'create']) ?>">cadastre-se aqui</a>
+                    Ainda não tem uma conta? <a href="<?= url(['page' => 'auth', 'go' => 'create']) ?>">cadastre-se aqui</a>
                 </small>
 
             </form>

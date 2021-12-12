@@ -1,0 +1,31 @@
+<?php $product = $props['product']; ?>
+<div class="col-md-3 col-6">
+    <div class="card shadow" style="width: 100%;">
+        <img src="<?= BASEURL . '/storage/products/' . $product['image'] ?>" class="card-img-top" alt="<?= $product['name'] ?>">
+        <div class="card-body">
+            <h5 class="card-title"><?= $product['name'] ?></h5>
+            <p class="text-secondary">R$ <?= number_format($product['price'], 2, ',', '.') ?></p>
+            <p class="card-text"><?= $product['description'] ?></p>
+
+            <div class="d-grid gap-2">
+                <?php
+                if (!auth()->check) {
+                    echo ' <a href="' . url(['page' => 'auth']) . '" class="btn btn-sm btn-primary btn-block">Faça login para adicionar ao seu carrinho</a>';
+                } else {
+                    if (auth()->level == 2) {
+                        if ($product['quantity'] == 0) {
+                            echo '<div class="d-grid gap-2"><button class="btn btn-sm btn-dark btn-block" disabled>Produto esgotado</button></div>';
+                        } else {
+                            echo '<div class="d-grid gap-2" onclick=addCart("' . $product['id'] . '")><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
+                        }
+                    } else {
+                        echo '<a href="' . url(['page' => 'product', 'go' => 'edit', 'query' => ['id' => $product['id']]]) . '" class="btn btn-sm btn-primary btn-block">Editar</a>';
+                        echo '<a href="javascript:void();" onclick=deleteProduct("' . $product['id'] . '") class="btn btn-sm btn-danger">Excluir</a>';
+                    }
+                }
+                ?>
+            </div>
+
+        </div>
+    </div>
+</div>

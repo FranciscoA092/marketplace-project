@@ -16,9 +16,9 @@ $controller = isset($_GET['page']) ? $_GET['page'] : 'home';
 $method = isset($_GET['go']) ? $_GET['go'] : 'index';
 
 //check login session
-if (!AuthService::check()) {
+/*if (!AuthService::check()) {
     $controller = 'auth';
-}
+}*/
 
 //run controler and method
 $controller = "App\Controllers\\" . ucfirst($controller) . "Controller";

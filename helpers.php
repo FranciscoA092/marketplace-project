@@ -2,6 +2,10 @@
 function auth(): stdClass
 {
     $data = new stdClass();
+    $data->check = isset($_SESSION['auth_name']) ? true : false;
+    if (!$data->check) {
+        return $data;
+    }
     $data->name = $_SESSION['auth_name'];
     $data->email = $_SESSION['auth_email'];
     $data->level = $_SESSION['auth_level'];

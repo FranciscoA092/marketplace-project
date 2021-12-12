@@ -17,21 +17,21 @@ class ProductController extends Page
     public function __construct()
     {
         $this->model = new Product();
-        $this->user_level = auth()->level;
+        $this->user_level = auth()->level ?? 2;
     }
 
     public function index()
     {
         $list = []; //list of products
         switch ($this->user_level) {
-            case 2:
-                $list = $this->model->all();
+            case 0:
+                $list = [];
                 break;
             case 1:
                 $list = $this->model->where([['id_company', '=', auth()->idCompany]])->get();
                 break;
             default:
-                $list = [];
+                $list = $this->model->all();
                 break;
         }
 

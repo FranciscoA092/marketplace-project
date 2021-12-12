@@ -1,2 +1,22 @@
 <?php self::component('slide'); ?>
-<div class="container">Home screen</div>
+<div class="container">
+
+    <p class="display-6 my-5">Produtos em alta</p>
+
+    <div class="row">
+        <?php
+        foreach ($props['products'] as $product) {
+            self::component('product', ['product' => $product]);
+        }
+        ?>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <center>
+                <a href="<?= url(['page' => 'product']) ?>" class="btn btn-primary my-3">Ver mais produtos</a>
+            </center>
+        </div>
+    </div>
+    <br><br>
+
+</div>

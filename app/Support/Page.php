@@ -35,7 +35,7 @@ class Page
         if (!file_exists($pathFile)) {
             throw new Exception("Error, file of component not find {$pathFile}", 1);
         }
-        require_once $pathFile;
+        include $pathFile;
     }
 
     public static function header()

@@ -42,3 +42,9 @@
 #main .navigator .nav .nav-item:first-child .nav-link {
   padding-left: 0px !important;
 }
+
+footer {
+  width: 100%;
+  background-color: #1e1e1e;
+  padding-top: 50px;
+}

@@ -19,34 +19,15 @@
             echo 'Nenhum produto encontrado';
             echo '</h2>';
             echo '<a href="' . url(['page' => 'product', 'go' => 'create']) . '">Cadastre um novo produto</a>';
-            echo '</center>';
+            echo '</center><br><br>';
         }
     } else {
     ?>
 
-        <div class="row">
+        <div class="row mb-4">
             <?php
             foreach ($props['data'] as $product) {
-                echo '<div class="col-md-3 col-6">';
-                echo '<div class="card shadow" style="width: 100%;">';
-                echo '<img src="' . BASEURL . '/storage/products/' . $product['image'] . '" class="card-img-top" alt="' . $product['name'] . '">';
-                echo '<div class="card-body">';
-                echo '<h5 class="card-title">' . $product['name'] . '</h5>';
-                echo '<p class="text-secondary">R$ ' . number_format($product['price'], 2, ',', '.') . '</p>';
-                echo '<p class="card-text">' . $product['description'] . '</p>';
-                if (auth()->level == 2) {
-                    if ($product['quantity'] == 0) {
-                        echo '<div class="d-grid gap-2"><button class="btn btn-sm btn-dark btn-block" disabled>Produto esgotado</button></div>';
-                    } else {
-                        echo '<div class="d-grid gap-2" onclick=addCart("' . $product['id'] . '")><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
-                    }
-                } else {
-                    echo '<a href="' . url(['page' => 'product', 'go' => 'edit', 'query' => ['id' => $product['id']]]) . '" class="btn btn-sm btn-primary">Editar</a>';
-                    echo '<a href="javascript:void();" onclick=deleteProduct("' . $product['id'] . '") class="btn btn-sm btn-danger mx-2">Excluir</a>';
-                }
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
+                self::component('product', ['product' => $product]);
             }
             ?>
         </div>

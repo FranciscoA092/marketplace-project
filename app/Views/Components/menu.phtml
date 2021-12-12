@@ -18,10 +18,10 @@
             </div>
             <div class="user">
                 <?php
-                if (isset($_SESSION['auth_name']) and $_SESSION['auth_name'] != '') {
+                if (auth()->check) {
                     echo '<a href="' . url(['page' => 'auth', 'go' => 'logout']) . '" class="btn btn-link text-light" title="Sair"><i class="material-icons">logout</i></a>';
                 } else {
-                    echo '<a href="" class="btn btn-link text-light"><i class="material-icons">account_circle</i></a>';
+                    echo '<a href="' . url(['page' => 'auth']) . '" class="btn btn-link text-light"><i class="material-icons">account_circle</i></a>';
                 }
                 ?>
             </div>
@@ -37,7 +37,12 @@
                     <a class="nav-link <?= $_GET['page'] == 'product' ? 'active' : '' ?>" href="<?= url(['page' => 'product']) ?>">Produtos</a>
                 </li>
                 <?php
-                if (auth()->level == 1) {
+                if (!auth()->check) {
+                    echo '<li class="nav-item">
+                        <a class="nav-link" href="' . url(['page' => 'auth', 'go' => 'create']) . '">Registre-se</a>
+                    </li>';
+                }
+                if (auth()->check and auth()->level == 1) {
                 ?>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Minha empresa</a>
@@ -47,7 +52,7 @@
                     </li>
                 <?php
                 }
-                if (auth()->level == 2) {
+                if (auth()->check and auth()->level == 2) {
                 ?>
                     <li class="nav-item">
                         <a class="nav-link <?= $_GET['page'] == 'cart' ? 'active' : '' ?>" href="<?= url(['page' => "cart"]) ?>">Carrinho de compras
