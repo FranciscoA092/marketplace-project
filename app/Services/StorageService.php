@@ -22,7 +22,11 @@ class StorageService
             return false;
         }
     }
-    public static function delete()
+    public static function delete($file): bool
     {
+        if (file_exists($file)) {
+            return unlink($file);
+        }
+        return false;
     }
 }

@@ -92,12 +92,75 @@ class ProductController extends Page
         }
     }
 
-    public function edit($id)
+    public function edit()
     {
+        $id_product = $_GET['id'] ?? null;
+        if ($id_product == null) {
+            return $this->view('Notfound');
+        }
+        $product = $this->model->find($id_product);
+        if (!$product) {
+            return $this->view('Notfound', ['message' => 'Produto não encontrado']);
+        }
+        //continue
+        return $this->view('Products.Edit', ['product' => $product]);
     }
 
-    public function update($id)
+    public function update()
     {
-        //method access via request post ajax
+        //method access vie request post ajax
+        if (!empty($_POST)) {
+            $id = $_GET['id'] ?? null;
+            $name = $_POST['name'] ?? null;
+            $category = $_POST['category'] ?? null;
+            $price = $_POST['price'] ?? null;
+            $description = $_POST['description'] ?? null;
+            //check
+            if ($id == null or $name == null or $category == null or $price == null or $description == null) {
+                return response([
+                    'status' => 'failed',
+                    'message' => 'Todos os campos são obrigatorios!',
+                ], 400);
+            }
+            //continue
+            //file of image saved
+            $data_save = [
+                'name' => $name,
+                'category' => $category,
+                'price' => $price,
+                'description' => $description,
+            ];
+            $save = $this->model->update($data_save, $id);
+            if ($save['status'] == 'success') {
+                return response([
+                    'status' => "success",
+                    'message' => 'Produto atualizado com sucesso'
+                ], 200);
+            } else {
+                return response([
+                    'status' => 'error',
+                    'message' => $save['message']
+                ], 400);
+            }
+        }
+    }
+
+    public function delete()
+    {
+        if (!empty($_POST)) {
+            $id = $_POST['id'] ?? null;
+            if ($id == null) {
+                return response(['status' => "failed", 'message' => 'Produto não encontrado'], 400);
+            }
+            $product = $this->model->find($id);
+            //continue
+            $action = $this->model->delete($id);
+            if ($action) {
+                StorageService::delete(BASEDIR . '/storage/products/' . $product['image']);
+                return response(['status' => "success", 'message' => 'Produto excluido com sucesso'], 200);
+            } else {
+                return response(['status' => "failed", 'message' => 'Erro ao tentar excluir produto favor tentar novamente'], 400);
+            }
+        }
     }
 }

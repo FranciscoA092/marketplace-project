@@ -72,14 +72,14 @@ class ModelHandler extends DB implements ModelInterface
             $insert = "";
 
             for ($i = 0; $i < count($columns); $i++) {
-                if ($i == count($columns) + 1) {
+                if ($i == count($columns) - 1) {
                     $insert .= "$columns[$i] = '" . $data[$columns[$i]] . "'";
                 } else {
                     $insert .= "$columns[$i] = '" . $data[$columns[$i]] . "', ";
                 }
             }
 
-            $script = "UPDATE " . $this->table . " SET $insert WHERE " . $this->primaryKey . " = $id";
+            $script = "UPDATE " . $this->table . " SET $insert WHERE " . $this->primaryKey . " = '$id'";
             $query = $this->_database->query($script);
 
             return [
@@ -95,14 +95,19 @@ class ModelHandler extends DB implements ModelInterface
     }
     public function delete($id): bool
     {
-        $object = $this->find($id);
-        if (!array_key_exists($this->primaryKey, $object)) {
+        try {
+            $object = $this->find($id);
+            if (!array_key_exists($this->primaryKey, $object)) {
+                return false;
+            }
+            //continue
+            $script = "DELETE FROM " . $this->table . " WHERE " . $this->primaryKey . " = '$id'";
+            $this->_database->query($script);
+            return true;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 1);
             return false;
         }
-        //continue
-        $script = "DELETE FROM " . $this->table . " WHERE " . $this->primaryKey . " = $id";
-        $this->_database->query($script);
-        return true;
     }
     public function all(): array
     {

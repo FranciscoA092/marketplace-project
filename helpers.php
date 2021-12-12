@@ -17,7 +17,8 @@ function url(array $data): string
 {
     $page = $data['page'] ?? null;
     $action = $data['go'] ?? 'index';
-    return BASEURL . ($page != null ? "?page=$page&go=$action" : "?go=$action");
+    $query = isset($data['query']) ? http_build_query($data['query']) : '';
+    return BASEURL . ($page != null ? "?page=$page&go=$action" . ($query != '' ? "&$query" : "") : "?go=$action" . ($query != '' ? "&$query" : ""));
 }
 
 function response(array $data, int $status_code)
