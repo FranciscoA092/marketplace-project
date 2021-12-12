@@ -20,6 +20,10 @@
                         <label>Preço (R$)</label>
                         <input type="text" class="form-control" name="price" value="<?= $props['product']['price'] ?>" required>
                     </div>
+                    <div class="col-md-6 col-6">
+                        <label>Quantidade em estoque</label>
+                        <input type="number" min="1" class="form-control" name="quantity" value="<?= $props['product']['quantity'] ?>" required>
+                    </div>
                     <div class="col-md-12 col-12">
                         <label>Descrição do produto</label>
                         <textarea class="form-control" name="description" required><?= $props['product']['description'] ?></textarea>
@@ -53,6 +57,7 @@
             let name = $('input[name="name"]').val();
             let category = $('input[name="category"]').val();
             let price = $('input[name="price"]').val();
+            let quantity = $('input[name="quantity"]').val();
             price = price.replace(".", "");
             price = price.replace(",", ".");
 
@@ -62,6 +67,7 @@
             form.append('category', category);
             form.append('price', price);
             form.append('description', description);
+            form.append('quantity', quantity);
             //request ajax
             $.ajax({
                 url: '<?= url(['page' => "product", 'go' => 'update', 'query' => ['id' => $_GET['id']]]) ?>',
