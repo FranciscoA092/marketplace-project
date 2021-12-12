@@ -35,7 +35,11 @@
                 echo '<p class="text-secondary">R$ ' . number_format($product['price'], 2, ',', '.') . '</p>';
                 echo '<p class="card-text">' . $product['description'] . '</p>';
                 if (auth()->level == 2) {
-                    echo '<div class="d-grid gap-2" onclick=addCart("' . $product['id'] . '")><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
+                    if ($product['quantity'] == 0) {
+                        echo '<div class="d-grid gap-2"><button class="btn btn-sm btn-dark btn-block" disabled>Produto esgotado</button></div>';
+                    } else {
+                        echo '<div class="d-grid gap-2" onclick=addCart("' . $product['id'] . '")><a href="#" class="btn btn-sm btn-success btn-block">Adicionar ao carrinho</a></div>';
+                    }
                 } else {
                     echo '<a href="' . url(['page' => 'product', 'go' => 'edit', 'query' => ['id' => $product['id']]]) . '" class="btn btn-sm btn-primary">Editar</a>';
                     echo '<a href="javascript:void();" onclick=deleteProduct("' . $product['id'] . '") class="btn btn-sm btn-danger mx-2">Excluir</a>';

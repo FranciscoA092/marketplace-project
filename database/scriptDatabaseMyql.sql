@@ -27,3 +27,33 @@ CREATE TABLE products (
     id_company INT NOT NULL,
     FOREIGN KEY (id_company) REFERENCES companies (id) ON DELETE CASCADE
 );
+
+CREATE TABLE sales (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    method_payment VARCHAR(50) NOT NULL,
+    total DECIMAL(8,2) NOT NULL,
+    data_sale TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_user INT NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE sale_product (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    total DECIMAL(8,2) NOT NULL,
+    quantity INT NOT NULL,
+    id_sale INT NOT NULL,
+    id_product INT NOT NULL,
+    FOREIGN KEY (id_sale) REFERENCES sales (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
+);
+
+CREATE TRIGGER update_quantity_product AFTER INSERT ON sale_product FOR EACH ROW
+BEGIN
+    DECLARE quantity_current INT;
+    DECLARE quantity_new INT;
+
+    SET quantity_current := (SELECT quantity FROM products WHERE id = NEW.id_product);
+    SET quantity_new := quantity_current - NEW.quantity;
+
+    UPDATE products SET quantity = quantity_new WHERE id = NEW.id_product;
+END

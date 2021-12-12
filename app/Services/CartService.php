@@ -37,21 +37,31 @@ class CartService
             return false;
         }
     }
-    public static function incrementQuantity($idproduct, int $quantity = 1)
+    public static function incrementQuantity($idproduct, int $quantity = 1): array
     {
         $cart = $_SESSION['cart_products'];
         $search = array_search($idproduct, array_map(function ($i) {
             return $i['id'];
         }, $cart));
+        $currentEstoque = (int) $cart[$search]['quantity'];
         $currentQuantity = (int) $cart[$search]['cart_quantity'];
         $priceProduct = (float) $cart[$search]['price'];
         $newQuantity = $currentQuantity + $quantity;
         $newPrice = $priceProduct * $newQuantity;
+        if ($newQuantity > $currentEstoque) {
+            return [
+                'status' => 'error',
+                'message' => 'Desculpe, não temos está quantidade em estoque'
+            ];
+        }
         $_SESSION['cart_products'][$search]['cart_quantity'] = $newQuantity;
         $_SESSION['cart_products'][$search]['cart_price'] = $newPrice;
-        return true;
+        return [
+            'status' => "success",
+            'message' => ''
+        ];
     }
-    public static function decrementQuantity($idproduct, int $quantity = 1)
+    public static function decrementQuantity($idproduct, int $quantity = 1): array
     {
         $cart = $_SESSION['cart_products'];
         $search = array_search($idproduct, array_map(function ($i) {
@@ -61,9 +71,18 @@ class CartService
         $priceProduct = (float) $cart[$search]['price'];
         $newQuantity = $currentQuantity - $quantity;
         $newPrice = $priceProduct * $newQuantity;
+        if ($newQuantity <= 0) {
+            return [
+                'status' => 'error',
+                'message' => 'Quantidade minima para compra é um'
+            ];
+        }
         $_SESSION['cart_products'][$search]['cart_quantity'] = $newQuantity;
         $_SESSION['cart_products'][$search]['cart_price'] = $newPrice;
-        return true;
+        return [
+            'status' => "success",
+            'message' => ''
+        ];
     }
     public static function list()
     {

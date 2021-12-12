@@ -4,8 +4,23 @@
     <?php
     if (count($props['data']) > 0) {
         $total = 0;
-        echo '<br>
-        <a href="#" class="btn btn-danger">Finalizar compra</a>';
+
+        echo '<div class="row">';
+        echo '  <div class="col-md-3 col-6">';
+        echo '        <div class="form-floating">';
+        echo '          <select class="form-select" id="method_payment">';
+        echo '              <option value="card-credit">Cartão de crédito</option>';
+        echo '              <option value="card-debit">Cartão de débito</option>';
+        echo '              <option value="boleto">Boleto</option>';
+        echo '          </select>';
+        echo '        <label for="method_payment">Selecione a forma de pagamento</label>';
+        echo '        </div>';
+        echo '  </div>';
+        echo '  <div class="col-md-3 col-6">';
+        echo '      <button class="btn btn-danger" id="btn-sale">Finalizar compra</button>';
+        echo '  </div>';
+        echo '</div>';
+        echo '<br>';
         echo '<table class="table align-middle my-5">';
         echo '<tbody>';
         foreach ($props['data'] as $product) {
@@ -38,6 +53,40 @@
     ?>
 </div>
 <script>
+    $(document).ready(function() {
+
+        $(document).on('click', '#btn-sale', function(evt) {
+            let method_payment = $('#method_payment option:selected').val();
+            $.ajax({
+                url: '<?= url(['page' => 'cart', 'go' => 'sale']) ?>',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    method_payment: method_payment
+                },
+                beforeSend: function() {
+                    $('#btn-sale').text('Finalizando ...');
+                }
+            }).done(function(data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: "",
+                    text: data.message,
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '<?= url(['page' => 'cart']) ?>';
+                    }
+                });
+            }).fail(function(err) {
+                $('#btn-sale').text('Finalizar compra');
+                Swal.fire('', err.responseJSON.message, 'error');
+            });
+        });
+
+    });
+
     function removeCart(idProduct) {
         $.ajax({
             url: '<?= url(['page' => 'cart', 'go' => 'remove']) ?>',
