@@ -26,3 +26,9 @@ function response(array $data, int $status_code)
     http_response_code($status_code);
     echo json_encode($data);
 }
+
+function cartCount(): int
+{
+    $cart = $_SESSION['cart_products'] ?? [];
+    return count($cart);
+}

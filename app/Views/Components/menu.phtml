@@ -1,45 +1,65 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1e1e1e;">
-    <div class="container">
-        <a class="navbar-brand" href="<?= url(['page' => 'home']) ?>">
-            <img src="<?= BASEURL . '/images/logo.png' ?>" title="Enigma Store" alt="Enigma Store" width="100px">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+<div id="main">
+    <div class="top">
+        <div class="container">
+            <div class="logo">
+                <a href="<?= url(['page' => 'home']) ?>">
+                    <img src="<?= BASEURL . '/images/logo.png' ?>" title="Enigma Store" alt="Enigma Store" width="100px">
+                </a>
+            </div>
+            <div class="search-box">
+                <form method="get" action="<?= url(['page' => 'product', 'go' => 'filter']) ?>">
+                    <input type="hidden" name="page" value="product">
+                    <input type="hidden" name="go" value="filter">
+                    <div class="input-group mt-2">
+                        <input type="text" class="form-control" name="name" placeholder="Digite para buscar">
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Buscar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="user">
+                <?php
+                if (isset($_SESSION['auth_name']) and $_SESSION['auth_name'] != '') {
+                    echo '<a href="' . url(['page' => 'auth', 'go' => 'logout']) . '" class="btn btn-link text-light" title="Sair"><i class="material-icons">logout</i></a>';
+                } else {
+                    echo '<a href="" class="btn btn-link text-light"><i class="material-icons">account_circle</i></a>';
+                }
+                ?>
+            </div>
         </div>
-
-        <div class="box-search" style="width:50%;">
-            <input type="search" placeholder="Digite para buscar" class="form-control w-100">
-        </div>
-
-        <ul class="navbar-nav navbar-right">
-            <li class="nav-item">
-                <a class="nav-link <?= $_GET['page'] == 'home' ? 'active' : '' ?>" aria-current="page" href="<?= url(['page' => "home"]) ?>">Inicio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link <?= $_GET['page'] == 'product' ? 'active' : '' ?>" href="<?= url(['page' => 'product']); ?>">Produtos</a>
-            </li>
-            <?php
-            if (auth()->level == 1) {
-            ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Minha empresa</a>
-                </li>
-            <?php
-            }
-            if (auth()->level == 2) {
-            ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $_GET['page'] == 'cart' ? 'active' : '' ?>" href="<?= url(['page' => 'cart']); ?>">Carrinho</a>
-                </li>
-            <?php
-            }
-            ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= url(['page' => 'auth', 'go' => 'logout']) ?>">Sair</a>
-            </li>
-        </ul>
-
     </div>
-</nav>
+    <div class="navigator">
+        <div class="container">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link <?= $_GET['page'] == 'home' ? 'active' : '' ?>" aria-current="page" href="<?= url(['page' => 'home']) ?>">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $_GET['page'] == 'product' ? 'active' : '' ?>" href="<?= url(['page' => 'product']) ?>">Produtos</a>
+                </li>
+                <?php
+                if (auth()->level == 1) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Minha empresa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vendas</a>
+                    </li>
+                <?php
+                }
+                if (auth()->level == 2) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $_GET['page'] == 'cart' ? 'active' : '' ?>" href="<?= url(['page' => "cart"]) ?>">Carrinho de compras
+                            <?php
+                            if (cartCount() > 0) {
+                                echo '<span class="badge rounded-pill bg-danger">' . cartCount() . '</span>';
+                            }
+                            ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+</div>

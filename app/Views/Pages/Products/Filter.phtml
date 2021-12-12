@@ -1,5 +1,5 @@
 <div class="container">
-    <?php self::component('breadcrumb', [['label' => 'Produtos', 'url' => null], ['label' => 'Todos', 'url' => null]]); ?>
+    <?php self::component('breadcrumb', [['label' => 'Produtos', 'url' => url(['page' => 'product'])], ['label' => 'Filtro', 'url' => null], ['label' => $_GET['name'], 'url' => null]]); ?>
     <?php
     if (auth()->level == 1) {
         echo '<a href="' . url(['page' => 'product', 'go' => 'create']) . '" class="btn btn-primary my-3"><i class="material-icons" style="font-size:1em;">add</i> Cadastrar novo produto</a>';

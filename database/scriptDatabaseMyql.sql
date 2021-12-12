@@ -47,6 +47,7 @@ CREATE TABLE sale_product (
     FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
 );
 
+DELIMITER $$
 CREATE TRIGGER update_quantity_product AFTER INSERT ON sale_product FOR EACH ROW
 BEGIN
     DECLARE quantity_current INT;
@@ -57,3 +58,4 @@ BEGIN
 
     UPDATE products SET quantity = quantity_new WHERE id = NEW.id_product;
 END
+$$

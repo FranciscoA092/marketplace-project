@@ -38,6 +38,17 @@ class ProductController extends Page
         return $this->view('Products.List', ['data' => $list]);
     }
 
+    public function filter()
+    {
+        $filtro = $_GET['name'] ?? null;
+        if (auth()->level == 1) {
+            $products = $this->model->where([['name', 'LIKE', "%$filtro%"], ['id_company', '=', auth()->idCompany]])->get();
+        } else {
+            $products = $this->model->where([['name', 'LIKE', "%$filtro%"]])->get();
+        }
+        return $this->view('Products.Filter', ['data' => $products]);
+    }
+
     public function create()
     {
         return $this->view('Products.Create');

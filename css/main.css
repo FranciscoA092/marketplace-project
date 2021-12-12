@@ -1,1 +1,44 @@
+#main {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+}
+#main .top {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #1e1e1e !important;
+}
+#main .top .container {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#main .top .search-box {
+  width: 40%;
+  height: 60px;
+}
+#main .top .logo {
+  align-self: flex-start;
+}
+#main .top .user {
+  align-self: flex-end;
+}
 
+#main .navigator {
+  width: 100%;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.5);
+}
+#main .navigator .nav .nav-link {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+#main .navigator .nav .active {
+  color: rgba(255, 255, 255, 1) !important;
+}
+#main .navigator .nav .nav-item:first-child .nav-link {
+  padding-left: 0px !important;
+}
