@@ -1,0 +1,77 @@
+<?php
+//variables globals of page
+$sales = $props['data'];
+$totalSales = array_sum(array_map(function ($i) {
+    return $i['quantity'];
+}, $sales));
+$totalSalesMoney = array_sum(array_map(function ($i) {
+    return $i['total'];
+}, $sales));
+$totalWarehouse = 0;
+?>
+<div class="container">
+    <h4 class="my-3">Relatório de vendas</h4>
+    <div class="row">
+        <div class="col-md-4 col-6">
+            <div class="card border-success mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-success text-light">Saldo acumulado</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-success">R$ <?= number_format($totalSalesMoney, 2, ',', '.') ?></h5>
+                    <p class="card-text">Valor total acumulado de vendas dentro da plataforma</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6">
+            <div class="card border-primary mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-primary text-light">Produtos vendidos</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-primary"><?= $totalSales ?></h5>
+                    <p class="card-text">Quantidade total de produtos vendidos dentro da plataforma</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6">
+            <div class="card border-warning mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-warning text-light">Em estoque</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-warning"><?= $totalWarehouse ?></h5>
+                    <p class="card-text">Quantidade total de produtos em estoque</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Lista de vendas realizadas
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <table class="table align-middle">
+                            <tbody>
+                                <?php
+                                foreach ($sales as $sale) {
+                                    echo '<tr>';
+                                    echo '<td width="10%"><img src="' . BASEURL . '/storage/products/' . $sale['image'] . '" width="60px" height="60px"></td>';
+                                    echo '<td width="60%">' . $sale['name'] . '</td>';
+                                    echo '<td width="10%">' . $sale['quantity'] . '</td>';
+                                    echo '<td width="10%">R$ ' . number_format($sale['total'], 2, ',', '.') . '</td>';
+                                    echo '</tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

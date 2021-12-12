@@ -144,7 +144,11 @@ class ModelHandler extends DB implements ModelInterface
             $operation = $clausule[$i][1];
             $value = $clausule[$i][2];
 
-            $where .= "$column $operation '$value' " . ($i == count($clausule) - 1 ? "" : "AND ");
+            if ($operation == 'IN') {
+                $where .= "$column $operation $value " . ($i == count($clausule) - 1 ? "" : "AND ");
+            } else {
+                $where .= "$column $operation '$value' " . ($i == count($clausule) - 1 ? "" : "AND ");
+            }
         }
 
         if ($error != "") {
