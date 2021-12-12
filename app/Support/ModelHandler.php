@@ -168,4 +168,16 @@ class ModelHandler extends DB implements ModelInterface
 
         return $this;
     }
+
+    public function sqlQuery(string $sql): ModelHandler
+    {
+        $query = $this->_database->query($sql);
+        if ($query and $query->rowCount() > 0) {
+            $datas = $query->fetchAll();
+            $this->_response = $datas;
+        } else {
+            $this->_response = [];
+        }
+        return $this;
+    }
 }

@@ -59,3 +59,6 @@ BEGIN
     UPDATE products SET quantity = quantity_new WHERE id = NEW.id_product;
 END
 $$
+
+CREATE VIEW total_sales_products AS
+SELECT P.id, P.name, P.image, SUM(SP.quantity) as total_quantity, SUM(SP.total) as total_money FROM sale_product AS SP INNER JOIN products AS P ON SP.id_product = P.id GROUP BY P.id;

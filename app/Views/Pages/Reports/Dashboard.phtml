@@ -1,0 +1,106 @@
+<?php
+$data = $props['data'];
+?>
+<div class="container">
+    <h4 class="my-3">Dashboard Geral</h4>
+    <div class="row">
+        <div class="col-md-3 col-6">
+            <div class="card border-success mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-success text-light">Total de empresa</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-success"><?= $data['count_companies']  ?></h5>
+                    <p class="card-text">Quantidade de empresas cadastradas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-primary mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-primary text-light">Produtos vendidos</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-primary"><?= $data['total_quantity_sales'] ?></h5>
+                    <p class="card-text">Número total de produtos vendidos dentro da plataforma</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-primary mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-primary text-light">Total de vendas</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-primary">R$ <?= number_format($data['total_money_sales'], 2, ',', '.') ?></h5>
+                    <p class="card-text">Valor total de todas as vendas dentro da plataforma</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-warning mb-3 w-100" style="height: 180px;">
+                <div class="card-header bg-warning text-light">Total de produtos</div>
+                <div class="card-body">
+                    <h5 class="card-title display-6 text-warning"><?= $data['count_products'] ?></h5>
+                    <p class="card-text">Quantidade total de produtos cadastrados na plataforma</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-6 col-12">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Top 5 dos produtos mais vendidos
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <table class="table align-middle">
+                                <tbody>
+                                    <?php
+                                    $position = 0;
+                                    foreach ($data['rank'] as $product) {
+                                        $position++;
+                                        echo '<tr>';
+                                        echo '<td width="10%"><b># ' . $position . '</b></td>';
+                                        echo '<td width="10%"><img src="' . BASEURL . '/storage/products/' . $product['image'] . '" width="60px" height="60px"></td>';
+                                        echo '<td width="30%">' . $product['name'] . '</td>';
+                                        echo '<td width="10%">' . $product['total_quantity'] . '</td>';
+                                        echo '<td width="20%">R$ ' . number_format($product['total_money'], 2, ',', '.') . '</td>';
+                                        echo '</tr>';
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <div class="accordion" id="accordionExampleTwo">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Empresas cadastradas
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExampleTwo">
+                        <div class="accordion-body">
+                            <table class="table align-middle">
+                                <tbody>
+                                    <?php
+                                    foreach ($data['companies'] as $company) {
+                                        echo '<tr>';
+                                        echo '<td width="60%">' . $company['name'] . '</td>';
+                                        echo '<td width="40%">' . $company['cnpj'] . '</td>';
+                                        echo '</tr>';
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

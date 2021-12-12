@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Company;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleProduct;
@@ -13,6 +14,7 @@ class SaleService extends DB
     private $modelSale;
     private $modelSaleProduct;
     private $modelProduct;
+    private $modelCompany;
 
     public function __construct()
     {
@@ -20,6 +22,7 @@ class SaleService extends DB
         $this->modelSale = new Sale();
         $this->modelSaleProduct = new SaleProduct();
         $this->modelProduct = new Product();
+        $this->modelCompany = new Company();
     }
 
     public function reportingMySales($idcompany): array
@@ -48,6 +51,34 @@ class SaleService extends DB
                 'image' => $products[$indexProduct]['image']
             ]);
         }
+        return $data;
+    }
+
+    public function reportDashboard(): array
+    {
+        $sales = $this->modelSale->all();
+        $sales_products = $this->modelSaleProduct->all();
+        $products = $this->modelProduct->all();
+        $companies = $this->modelCompany->all();
+        $rank = $this->modelSale->sqlQuery("SELECT * FROM total_sales_products ORDER BY total_quantity DESC")->get();
+
+        $totalSalesQuantity = array_sum(array_map(function ($i) {
+            return $i['quantity'];
+        }, $sales_products));
+        $totalSalesMoney = array_sum(array_map(function ($i) {
+            return $i['total'];
+        }, $sales));
+
+        $data = [
+            'count_companies' => count($companies),
+            'count_products' => count($products),
+            'count_sales' => count($sales),
+            'total_money_sales' => $totalSalesMoney,
+            'total_quantity_sales' => $totalSalesQuantity,
+            'companies' => $companies,
+            'rank' => array_slice($rank, 0, 5)
+        ];
+
         return $data;
     }
 

@@ -22,6 +22,9 @@ class ReportController extends Page
         if (auth()->level == 1) {
             $data = $this->serviceSale->reportingMySales(auth()->idCompany);
             return $this->view('Reports.SaleCompany', ['data' => $data]);
+        } else if (auth()->level == 0) {
+            $data = $this->serviceSale->reportDashboard();
+            return $this->view('Reports.Dashboard', ['data' => $data]);
         }
     }
 }

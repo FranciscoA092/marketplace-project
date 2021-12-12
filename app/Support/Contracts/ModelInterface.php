@@ -10,4 +10,5 @@ interface ModelInterface
     public function all(): array;
     public function find($id): array;
     public function where(array $data);
+    public function sqlQuery(string $sql);
 }

@@ -82,3 +82,22 @@ footer {
 .perfil-team .text p {
   font-size: 0.8em;
 }
+
+.table tr:last-child {
+  border-bottom-color: transparent !important;
+}
+.card-img-top {
+  width: 100%;
+  min-height: 200px;
+  padding: 20px;
+}
+.card-img-top .image {
+  width: 100%;
+  height: 200px;
+  background-position: center;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+.card-body {
+  height: 200px !important;
+}
