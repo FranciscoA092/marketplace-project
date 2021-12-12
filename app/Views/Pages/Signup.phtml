@@ -3,7 +3,7 @@
         <div class="col-md-4 col-12  rounded shadow p-5 my-3 bg-white">
             <a href="<?= url(['page' => 'auth']) ?>"><i class="material-icons">arrow_back</i></a>
             <center><img src="<?= BASEURL . '/images/logo.png' ?>" width="120px" class="mb-4"></center>
-            <form method="post" action="<?= url(['go' => 'signup']) ?>">
+            <form method="post" action="<?= url(['page' => 'auth', 'go' => 'signup']) ?>">
                 <label for="name">Seu nome</label>
                 <input type="text" class="form-control" name="name" id="name" placeholder="Nome" value="<?= $props['form']['name'] ?? '' ?>" required>
                 <br>
