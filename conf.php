@@ -1,7 +1,7 @@
 <?php
 //file of settings used in system
 define("BASEDIR", __DIR__);
-define("BASEURL", "https://enigmastore.net/");
+define("BASEURL", "http://enigmastore.net/");
 //conection database
 define("DB_USER", "enigmore_site");
 define("DB_PWD", "Database@123");
