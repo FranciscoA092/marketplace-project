@@ -27,6 +27,11 @@ class CartController extends Page
         return $this->view('Cart', ['data' => $cart]);
     }
 
+    public function confirmed()
+    {
+        return $this->view('Payment');
+    }
+
     public function sale()
     {
         if (!empty($_POST)) {

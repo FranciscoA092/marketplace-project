@@ -24,6 +24,7 @@ CREATE TABLE products (
     image VARCHAR(200),
     quantity INT NOT NULL DEFAULT 0,
     price DECIMAL(8,2) NOT NULL,
+    link_external VARCHAR(250),
     id_company INT NOT NULL,
     FOREIGN KEY (id_company) REFERENCES companies (id) ON DELETE CASCADE
 );

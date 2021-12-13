@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-md-6 col-6">
                         <label>Nome do produto</label>
-                        <input type="text" class="form-control" name="name" required>
+                        <input type="text" class="form-control" name="nome" required>
                     </div>
                     <div class="col-md-6 col-6">
                         <label>Categoria</label>
@@ -27,6 +27,10 @@
                     <div class="col-md-6 col-6">
                         <label>Quantidade em estoque</label>
                         <input type="number" min="1" class="form-control" name="quantity" value="<?= $props['product']['quantity'] ?>" required>
+                    </div>
+                    <div class="col-md-12 col-12">
+                        <label>Link para pagamento externo</label>
+                        <input type="text" class="form-control" name="link_external" value="<?= $props['product']['link_eternal'] ?>" placeholder="https://example.checkout.com">
                     </div>
                     <div class="col-md-12 col-12">
                         <label>Descrição do produto</label>
@@ -68,10 +72,11 @@
         $(document).on('submit', '#form', function(evt) {
             evt.preventDefault();
             let form = new FormData();
-            let name = $('input[name="name"]').val();
+            let name = $('input[name="nome"]').val();
             let category = $('input[name="category"]').val();
             let price = $('input[name="price"]').val();
             let quantity = $('input[name="quantity"]').val();
+            let link = $('input[name="link_external"]').val();
             price = price.replace(".", "");
             price = price.replace(",", ".");
 
@@ -83,6 +88,7 @@
             form.append('price', price);
             form.append('description', description);
             form.append('quantity', quantity);
+            form.append('link_external', link);
             //request ajax
             $.ajax({
                 url: '<?= url(['page' => "product", 'go' => 'store']) ?>',

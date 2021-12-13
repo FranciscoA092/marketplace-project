@@ -5,7 +5,7 @@
             <center><img src="<?= BASEURL . '/images/logo.png' ?>" width="120px" class="mb-4"></center>
             <form method="post" action="<?= url(['page' => 'auth', 'go' => 'signin']) ?>">
                 <label for="login">Seu login</label>
-                <input type="text" class="form-control" name="login" id="login" placeholder="login" required>
+                <input type="email" class="form-control" name="login" id="login" placeholder="login" autofocus required>
                 <br>
 
                 <label for="password">Senha</label>

@@ -1,7 +1,7 @@
 <?php
 //file index central fo system
 setlocale(LC_MONETARY, 'pt_BR');
-ini_set('display_errors', true);
+ini_set('display_errors', false);
 error_reporting(E_ALL);
 
 require __DIR__ . '/vendor/autoload.php';

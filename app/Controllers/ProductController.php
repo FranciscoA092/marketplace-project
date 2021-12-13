@@ -63,7 +63,8 @@ class ProductController extends Page
             $category = $_POST['category'] ?? null;
             $price = $_POST['price'] ?? null;
             $description = $_POST['description'] ?? null;
-            $quantity = $_POST['quantity'] ?? 0;
+            $quantity = $_POST['quantity'] ?? 1;
+            $link = $_POST['link_external'] ?? null;
             //check
             if ($file == null or $name == null or $category == null or $price == null or $description == null) {
                 return response([
@@ -82,7 +83,8 @@ class ProductController extends Page
                     'description' => $description,
                     'image' => $upload,
                     'id_company' => auth()->idCompany,
-                    'quantity' => $quantity
+                    'quantity' => $quantity,
+                    'link_external' => $link
                 ];
                 $save = $this->model->create($data_save);
                 if ($save['status'] == 'success') {
@@ -129,6 +131,7 @@ class ProductController extends Page
             $price = $_POST['price'] ?? null;
             $description = $_POST['description'] ?? null;
             $quantity = $_POST['quantity'] ?? 0;
+            $link = $_POST['link_external'] ?? null;
             //check
             if ($id == null or $name == null or $category == null or $price == null or $description == null) {
                 return response([
@@ -143,7 +146,8 @@ class ProductController extends Page
                 'category' => $category,
                 'price' => $price,
                 'description' => $description,
-                'quantity' => $quantity
+                'quantity' => $quantity,
+                'link_external' => $link
             ];
             $save = $this->model->update($data_save, $id);
             if ($save['status'] == 'success') {
