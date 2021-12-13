@@ -1,9 +1,9 @@
 <?php
 //file of settings used in system
 define("BASEDIR", __DIR__);
-define("BASEURL", "https://db06-2804-2004-3243-f700-642f-c8da-8c68-ef2e.ngrok.io/marketplace-project/");
+define("BASEURL", "https://enigmastore.net/");
 //conection database
-define("DB_USER", "root");
-define("DB_PWD", "");
+define("DB_USER", "enigmore_site");
+define("DB_PWD", "Database@123");
 define("DB_HOST", "localhost");
-define("DATABASE", "enigmastore");
+define("DATABASE", "enigmore_store");
