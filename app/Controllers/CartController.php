@@ -29,7 +29,73 @@ class CartController extends Page
 
     public function confirmed()
     {
-        return $this->view('Payment');
+        if (isset($_GET['product'])) {
+            $id = $_GET['product'];
+            $myCart = CartService::list();
+            $product = $this->modelProduct->find($id);
+
+            if (count($myCart) > 0) {
+                //if exist cart shopping
+                $index = array_search($id, array_map(function ($item) {
+                    return $item['id'];
+                }, $myCart));
+                $vef = (string) $index;
+                if (strlen($vef) > 0) {
+                    $product_my_cart = $myCart[$index];
+                    $cart_simulated = array(0 => $product_my_cart);
+                    $sale = [
+                        'method_payment' => 'external',
+                        'total' => $product['price'],
+                        'id_user' => auth()->id,
+                        'products' => $cart_simulated
+                    ];
+                    $save = $this->service->sale($sale);
+                    if ($save['status'] == 'success') {
+                        CartService::removeProduct($id);
+                        return $this->view('Payment', ['message' => 'Pagamento aprovado, obrigado por ter comprado <b>' . $product['name'] . '</b>', 'status' => 'success']);
+                    } else {
+                        return $this->view('Payment', ['message' => 'Não foi possivel confirmar o pagamento em nossa plataforma :(', 'status' => 'error']);
+                    }
+                } else {
+                    $temp = $product;
+                    $temp['cart_quantity'] = 1;
+                    $temp['cart_price'] = $product['price'];
+                    $cart_simulated = array(0 => $temp);
+                    $sale = [
+                        'method_payment' => 'external',
+                        'total' => $product['price'],
+                        'id_user' => auth()->id,
+                        'products' => $cart_simulated
+                    ];
+                    $save = $this->service->sale($sale);
+                    if ($save['status'] == 'success') {
+                        return $this->view('Payment', ['message' => 'Pagamento aprovado, obrigado por ter comprado <b>' . $product['name'] . '</b>', 'status' => 'success']);
+                    } else {
+                        return $this->view('Payment', ['message' => 'Não foi possivel confirmar o pagamento em nossa plataforma :(', 'status' => 'error']);
+                    }
+                }
+            } else {
+                //create a sale with only this product
+                $temp = $product;
+                $temp['cart_quantity'] = 1;
+                $temp['cart_price'] = $product['price'];
+                $cart_simulated = array(0 => $temp);
+                $sale = [
+                    'method_payment' => 'external',
+                    'total' => $product['price'],
+                    'id_user' => auth()->id,
+                    'products' => $cart_simulated
+                ];
+                $save = $this->service->sale($sale);
+                if ($save['status'] == 'success') {
+                    return $this->view('Payment', ['message' => 'Pagamento aprovado, obrigado por ter comprado <b>' . $product['name'] . '</b>', 'status' => 'success']);
+                } else {
+                    return $this->view('Payment', ['message' => 'Não foi possivel confirmar o pagamento em nossa plataforma :(', 'status' => 'error']);
+                }
+            }
+        } else {
+            return $this->view('Notfound', ['message' => 'Produto não encontrado']);
+        }
     }
 
     public function sale()

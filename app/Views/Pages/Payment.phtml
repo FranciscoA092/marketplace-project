@@ -2,6 +2,6 @@
     <center>
         <img src="<?= BASEURL . '/images/payment.jpg' ?>" width="240px">
         <br>
-        <h4 class="text-success mb-5">Pagamento confirmado</h4>
+        <h4 class="text-<?= $props['status'] ?> mb-5"><?= $props['message'] ?></h4>
     </center>
 </div>
