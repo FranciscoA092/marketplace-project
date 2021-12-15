@@ -9,16 +9,19 @@
         echo '  <div class="col-md-3 col-12">';
         echo '        <div class="form-floating mb-2">';
         echo '          <select class="form-select" id="method_payment">';
-        echo '              <option value="card-credit">Cartão de crédito</option>';
-        echo '              <option value="card-debit">Cartão de débito</option>';
+        //echo '              <option value="card-credit">Cartão de crédito</option>';
+        //echo '              <option value="card-debit">Cartão de débito</option>';
         echo '              <option value="mercado-pago">Mercado pago</option>';
-        echo '              <option value="boleto">Boleto</option>';
+        //echo '              <option value="boleto">Boleto</option>';
         echo '          </select>';
         echo '        <label for="method_payment">Selecione a forma de pagamento</label>';
         echo '        </div>';
         echo '  </div>';
         echo '  <div class="col-md-3 col-12">';
-        echo '      <button class="btn btn-danger" id="btn-sale">Finalizar compra</button>';
+        if(count($props['data']) == 0){
+            echo '      <a href="'.$props['data'][0]['link_external'].'" class="btn btn-danger">Finalizar compra</a>';
+        }
+        //echo '      <button class="btn btn-danger" id="btn-sale">Finalizar compra</button>';
         echo '  </div>';
         echo '</div>';
         echo '<br>';
