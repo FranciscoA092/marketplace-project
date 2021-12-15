@@ -25,7 +25,7 @@ class ProductController extends Page
         $list = []; //list of products
         switch ($this->user_level) {
             case 0:
-                $list = [];
+                $list = $this->model->all();
                 break;
             case 1:
                 $list = $this->model->where([['id_company', '=', auth()->idCompany]])->get();
