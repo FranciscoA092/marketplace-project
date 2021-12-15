@@ -20,3 +20,56 @@
     <br><br>
 
 </div>
+<script>
+    function addCart(idProduct) {
+        $.ajax({
+            url: '<?= url(['page' => 'cart', 'go' => 'add']) ?>',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                id_product: idProduct
+            }
+        }).done(function(data) {
+            Swal.fire('', data.message, 'success');
+        }).fail(function(err) {
+            Swal.fire('', err.responseJSON.message, 'error');
+        });
+    }
+
+    function deleteProduct(id) {
+        Swal.fire({
+            title: 'Confirmar',
+            text: "Deseja mesmo excluír este produto?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?= url(['page' => 'product', 'go' => 'delete']) ?>',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: id
+                    }
+                }).done(function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "",
+                        text: data.message,
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '<?= url(['page' => 'product']) ?>';
+                        }
+                    });
+                }).fail(function(err) {
+                    Swal.fire('', err.responseJSON.message, 'error');
+                });
+            }
+        });
+    }
+</script>
