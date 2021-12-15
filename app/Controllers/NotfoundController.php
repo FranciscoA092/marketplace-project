@@ -9,7 +9,7 @@ class NotfoundController extends Page
     const TITLE = "Carrinho de compras";
     
     public function index(){
-      return $this->view('Notfound);
+      return $this->view('Notfound');
     }
     
 }
