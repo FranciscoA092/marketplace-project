@@ -17,7 +17,7 @@ $method = isset($_GET['go']) ? $_GET['go'] : 'index';
 $controller = "App\Controllers\\" . ucfirst($controller) . "Controller";
 
 if(!class_exists($controller)){
-  $controller = "App\Controllers\NotfoundController.php";
+  $controller = "App\Controllers\NotfoundController";
   $method = 'index';
 }
 //instance
