@@ -5,7 +5,7 @@
         echo '<a href="' . url(['page' => 'product', 'go' => 'create']) . '" class="btn btn-primary my-3"><i class="material-icons" style="font-size:1em;">add</i> Cadastrar novo produto</a>';
     }
     if (!count($props['data']) > 0) {
-        if (auth()->level == 2) {
+        if (auth()->level == 2 OR auth()->level == 0){
             echo '<center>';
             echo '<h2 class="my-5">';
             echo '<img src="' . BASEURL . '/images/warning.svg" class="my-3" style="width:120px"><br>';
